@@ -20,23 +20,6 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def new_releases(request, category_slug=None):
-    category = None
-    categories = Category.objects.all()
-    products = Product.objects.filter(available=True).order_by('created')
-    products = products.reverse()
-    # new = Product.objects.sort(key=lambda x: x.created)
-    # We added the check for product here to prevent errors
-    if category_slug != None and category_slug != "product":
-        category = get_object_or_404(Category, slug=category_slug)
-        products = products.filter(category=category)
-    return render(request,
-                  'product/new_releases.html',
-                  {'category': category,
-                   'categories': categories,
-                   'products': products})
-
-
 def product_list(request, category_slug=None):
     category = None
     categories = Category.objects.all()

@@ -8,6 +8,7 @@ class CartAddProductForm(forms.Form):
     quantity = forms.TypedChoiceField(
                                 choices=PRODUCT_QUANTITY_CHOICES,
                                 coerce=int)
+    note = forms.CharField(max_length=256)
     update = forms.BooleanField(required=False,
                                 initial=False,
                                 widget=forms.HiddenInput)

@@ -6,23 +6,27 @@ from cart.cart import Cart
 from django.contrib.admin.views.decorators import staff_member_required
 from django.shortcuts import get_object_or_404
 from .models import Order
-from django.conf import settings
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-#import weasyprint
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+import io
+
 
 @staff_member_required
 def admin_order_pdf(request, order_id):
+    buffer = io.BytesIO()
+
+    p = canvas.Canvas(buffer)
+
+    p.drawString(100, 100, "hello world")
+
+    p.showPage()
+    p.save()
+
+    buffer.seek(0)
     order = get_object_or_404(Order, id=order_id)
-    html = render_to_string('orders/order/pdf.html',
-                            {'order': order})
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'filename=\
-        "order_{}.pdf"'.format(order.id)
-    weasyprint.HTML(string=html).write_pdf(response,
-        stylesheets=[weasyprint.CSS(
-            settings.STATIC_ROOT + 'css/pdf.css')])
-    return response
+    # return render(request, 'admin/orders/order/detail.html', {'order': order})
+    return FileResponse(buffer, as_attachment=True, filename='order.pdf')
+
 
 @staff_member_required
 def admin_order_detail(request, order_id):
@@ -30,6 +34,16 @@ def admin_order_detail(request, order_id):
     return render(request,
                   'admin/orders/order/detail.html',
                   {'order': order})
+
+
+@staff_member_required
+def in_progress(request):
+    active_orders = Order.objects.filter(paid=True)
+
+    return render(request,
+                  'admin/orders/in_progress.html',
+                  {'active_orders': active_orders})
+
 
 def order_create(request):
     cart = Cart(request)
@@ -41,6 +55,7 @@ def order_create(request):
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
                                          price=item['price'],
+                                         note=item['note'],
                                          quantity=item['quantity'])
             # clear the cart
             cart.clear()

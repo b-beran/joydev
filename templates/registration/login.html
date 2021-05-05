@@ -3,38 +3,40 @@
 
 {% block content %}
 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
 
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
+<div class="container mt-5 mb-5">
+  <h3>Log In</h3>
+  
+    {% if form.errors %}
+      <div class="alert alert-danger">
+        Your username and password didn't match. Please try again.
+      </div>
     {% endif %}
-  {% endif %}
+
+    {% if next %}
+      {% if user.is_authenticated %}
+        <div class="alert alert-warning">
+          Your account doesn't have access to this page. To proceed, please login with an account that has access.
+        </div>
+      {% else %}
+        <div class="alert alert-warning">
+          Please login to see this page.
+        </div>
+      {% endif %}
+    {% endif %}
 
   <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
+      {{  form.as_p }}
+      {%  csrf_token %}
+      <input type="hidden" name="next" value="{{  next }}"/>
+      <input type="submit" class="btn btn-danger" value="Log-in">
   </form>
 
-  {# Assumes you setup the password_reset view in your URLconf #}
-    <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+    {# Assumes you setup the password_reset view in your URLconf #}
+    <p><a href="{% url 'password_reset' %}">Forgot password?</a></p>
 
-    <p><a href="{% url 'signup' %}">New to Third Street? Sign up here</a></p>
+    <p><a href="{% url 'signup' %}">Shahen? Sign up here</a></p>
+</div>
+
 
 {% endblock %}
