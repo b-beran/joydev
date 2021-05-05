@@ -36,6 +36,15 @@ def admin_order_detail(request, order_id):
                   {'order': order})
 
 
+@staff_member_required
+def in_progress(request):
+    active_orders = Order.objects.filter(paid=True)
+
+    return render(request,
+                  'admin/orders/in_progress.html',
+                  {'active_orders': active_orders})
+
+
 def order_create(request):
     cart = Cart(request)
     if request.method == 'POST':
