@@ -12,11 +12,12 @@
   <h4 class="text-center">Items</h4>
   
     {% for product in products %}
-      <div class="item">
+      <div class="card">
         <a href="{{ product.get_absolute_url }}">
           <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
         </a>
         <a href="{{ product.get_absolute_url }}">{{ product.name }}</a><br>
+        <p>{{ product.description }}</p>
         ${{ product.price }}
       </div>
     {% endfor %}

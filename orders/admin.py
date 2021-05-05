@@ -6,6 +6,7 @@ from .models import Order, OrderItem
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 
+
 def order_detail(obj):
     return mark_safe('<a href="{}">View</a>'.format(
         reverse('orders:admin_order_detail', args=[obj.id])))
@@ -30,7 +31,9 @@ def export_to_csv(modeladmin, request, queryset):
                 value = value.strftime('%d/%m/%Y') 
             data_row.append(value) 
         writer.writerow(data_row) 
-    return response 
+    return response
+
+
 export_to_csv.short_description = 'Export to CSV' 
 
 
