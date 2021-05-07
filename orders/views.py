@@ -1,6 +1,7 @@
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from .models import OrderItem
+from .models import Product
 from .forms import OrderCreateForm
 from cart.cart import Cart
 from django.contrib.admin.views.decorators import staff_member_required
@@ -31,14 +32,18 @@ def admin_order_pdf(request, order_id):
 @staff_member_required
 def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
+    items = OrderItem.objects.filter(order=order_id)
+
+    products = Product.objects.filter(id=)
     return render(request,
                   'admin/orders/order/detail.html',
-                  {'order': order})
+                  {'order': order},
+                  {'items': items})
 
 
 @staff_member_required
 def in_progress(request):
-    active_orders = Order.objects.filter(paid=True)
+    active_orders = Order.objects.filter(completed=False, paid=True)
 
     return render(request,
                   'admin/orders/in_progress.html',
@@ -55,7 +60,6 @@ def order_create(request):
                 OrderItem.objects.create(order=order,
                                          product=item['product'],
                                          price=item['price'],
-                                         note=item['note'],
                                          quantity=item['quantity'])
             # clear the cart
             cart.clear()

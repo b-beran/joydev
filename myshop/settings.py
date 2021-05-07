@@ -48,8 +48,8 @@ INSTALLED_APPS = [
 # Replace 'user' with your gmail account name for django apps
 # replace 'password' with the password for your gmail account for django apps
 EMAIL_HOST = 'smtp.mailtrap.io'
-EMAIL_HOST_USER = 'uno.third.street@gmail.com'
-EMAIL_HOST_PASSWORD = '!3rdStreet@'
+EMAIL_HOST_USER = 'shahenafghanomaha@gmail.com'
+EMAIL_HOST_PASSWORD = 'Maverick20!'
 EMAIL_PORT = '2525'
 
 
@@ -142,9 +142,9 @@ CART_SESSION_ID = 'cart'
 
 
 # Braintree settings - replace with your credentials after signing up for braintree account
-BRAINTREE_MERCHANT_ID = 'cfjs35hb52pb42y4'  # Merchant ID
-BRAINTREE_PUBLIC_KEY = 'kmpd9mfxjx9kyr58'   # Public Key
-BRAINTREE_PRIVATE_KEY = '38ea7de5163730220fc17a0059245385'  # Private key
+BRAINTREE_MERCHANT_ID = '2dj4374xxrt7p3gx'  # Merchant ID
+BRAINTREE_PUBLIC_KEY = 'zbcdd62r92ct7p5b'   # Public Key
+BRAINTREE_PRIVATE_KEY = '9886601c943e3613bf51337e6b531292'  # Private key
 
 
 Configuration.configure(
