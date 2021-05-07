@@ -34,7 +34,6 @@ def admin_order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id)
     items = OrderItem.objects.filter(order=order_id)
 
-    products = Product.objects.filter(id=)
     return render(request,
                   'admin/orders/order/detail.html',
                   {'order': order},
