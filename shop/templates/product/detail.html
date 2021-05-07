@@ -5,17 +5,48 @@
   {{ product.name }}
 {% endblock %}
 
+
+
 {% block content %}
-  <div class="product-detail">
-    <img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}">
-    <h1>{{ product.name }}</h1>
-    <h2><a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a></h2>
-    <p class="price">${{ product.price }}</p>
-    <form action="{% url "cart:cart_add" product.id %}" method="post">
-      {{ cart_product_form }}
-      {% csrf_token %}
-      <input type="submit" value="Add to cart">
-    </form>
-    {{ product.description|linebreaks }}
-  </div>
+
+<div class="container mt-4 mb-4">
+  
+    <div class="card mb-5">
+        <div class="card-body row">
+            <div class="col-md-4">
+                <a href="{{ product.get_absolute_url }}">
+                    <img 
+                        src="{% if product.image %}{{ product.image.url }}{% else %}{% static "img/no_image.png" %}{% endif %}" 
+                        alt="{{ product.name }}"
+                        class="w-100"
+                    />
+                </a>
+            </div>
+            <div class="col-md-7 d-flex flex-column justify-content-between">
+                <div>
+                    <a href="{{ product.get_absolute_url }}"><h5>{{ product.name }}</h5></a>
+                    <a href="{{ product.category.get_absolute_url }}">{{ product.category }}</a>
+                    <p>{{ product.description|linebreaks }}</p>
+                </div>
+                <div class="form-group">
+                    <label>Special Instructions</label>
+                    <textarea class="form-control" name="instructions"></textarea>
+                </div>
+            </div>
+            <div class="col-md-1">
+                <span><b>${{ product.price }}</b></span>
+            </div>
+        </div>
+        
+        <div class="card-footer text-center">
+            <form action="{% url "cart:cart_add" product.id %}" method="post">
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Add to Cart</a>
+            </form>
+        </div>
+    </div>
+
+</div>
+
 {% endblock %}
